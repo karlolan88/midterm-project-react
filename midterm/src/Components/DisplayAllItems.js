@@ -6,30 +6,32 @@ const DisplayAllItems = () => {
 
   return (
     <div>
-      <h2>All Inventory Items</h2>
+      <h1 className="title">All Inventory Items</h1>
       {items.length > 0 ? (
-        <table border="1" cellPadding="10" cellSpacing="0">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Quantity</th>
-              <th>Price</th>
-              <th>Category</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((item) => (
-              <tr key={item.id}>
-                <td>{item.id}</td>
-                <td>{item.name}</td>
-                <td>{item.quantity}</td>
-                <td>{item.price}</td>
-                <td>{item.category}</td>
+        <div className="table-container">
+          <table className="display-items-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Category</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {items.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.id}</td>
+                  <td>{item.name}</td>
+                  <td>{item.quantity}</td>
+                  <td>{item.price.toFixed(2)}</td>
+                  <td>{item.category}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       ) : (
         <p>No items available in the inventory.</p>
       )}

@@ -4,18 +4,16 @@ export const InventoryContext = createContext();
 
 export const InventoryProvider = ({ children }) => {
   const [items, setItems] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(''); // State for error message
 
   const addItem = (item) => {
     // Check for duplicate ID
     const idExists = items.some(existingItem => existingItem.id === item.id);
     if (idExists) {
-      setErrorMessage("The ID you entered already exists in our system. Please enter a unique ID.");
+      console.error('Item ID already exists!'); // Log an error message
       return; // Exit the function if ID is a duplicate
     }
 
     setItems([...items, item]);
-    setErrorMessage(''); // Clear error message if item added successfully
   };
 
   const updateItem = (id, field, newValue) => {
@@ -30,7 +28,7 @@ export const InventoryProvider = ({ children }) => {
   };
 
   return (
-    <InventoryContext.Provider value={{ items, addItem, updateItem, removeItem, errorMessage }}>
+    <InventoryContext.Provider value={{ items, addItem, updateItem, removeItem }}>
       {children}
     </InventoryContext.Provider>
   );
