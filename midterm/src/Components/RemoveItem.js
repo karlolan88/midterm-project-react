@@ -2,31 +2,50 @@ import React, { useState, useContext } from 'react';
 import { InventoryContext } from '../context/InventoryContext';
 
 const RemoveItem = () => {
-  const { items, removeItem } = useContext(InventoryContext);
-  const [id, setId] = useState('');
-  const [message, setMessage] = useState('');
+    const { items, removeItem } = useContext(InventoryContext);
+    const [itemId, setItemId] = useState('');
+    const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const item = items.find(i => i.id === id);
-    if (item) {
-      removeItem(id);
-      setMessage(`Item ${item.name} has been removed from the inventory`);
-    } else {
-      setMessage('Item not found!');
-    }
-  };
+    const handleChange = (e) => {
+        setItemId(e.target.value);
+    };
 
-  return (
-    <div>
-      <h2>Remove Item</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="text" placeholder="ID" value={id} onChange={(e) => setId(e.target.value)} required />
-        <button type="submit">Remove Item</button>
-      </form>
-      {message && <p>{message}</p>}
-    </div>
-  );
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Check if item exists
+        const itemExists = items.some(item => item.id === itemId);
+        if (!itemExists) {
+            setError('Item not found. Please enter a valid ID.');
+            return;
+        }
+
+        // Remove item
+        removeItem(itemId);
+        setMessage('Item removed successfully!');
+        setError('');
+        setItemId(''); // Reset input field
+    };
+
+    return (
+        <div className="add-item-container">
+            <h2 className="title">Remove Item</h2>
+            <div className="add-item-box">
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        placeholder="Enter Item ID"
+                        value={itemId}
+                        onChange={handleChange}
+                        required
+                    />
+                    <button type="submit">Remove Item</button>
+                </form>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                {message && <p>{message}</p>}
+            </div>
+        </div>
+    );
 };
 
 export default RemoveItem;

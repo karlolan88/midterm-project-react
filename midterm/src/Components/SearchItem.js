@@ -20,30 +20,48 @@ const SearchItem = () => {
 
   return (
     <div>
-      <h2>Search Item by ID</h2>
-      
-      {/* Search input field */}
-      <label htmlFor="search-id">Enter Item ID: </label>
-      <input 
-        type="text" 
-        id="search-id" 
-        value={searchId} 
-        onChange={(e) => setSearchId(e.target.value)} 
-      />
-      <button onClick={handleSearch}>Search</button>
+      <h1 className="title">Search Item by ID</h1>
+
+      {/* Search input field container */}
+      <div className="add-item-container">
+        <label htmlFor="search-id">Enter Item ID: </label>
+        <input 
+          type="text" 
+          id="search-id" 
+          className="add-item-box" // Apply same styling as Add Item
+          value={searchId} 
+          onChange={(e) => setSearchId(e.target.value)} 
+        />
+        <button onClick={handleSearch} className="add-item-button">Search</button>
+      </div>
 
       {/* Display found item details */}
       {itemFound ? (
         <div>
-          <h3>Item Details:</h3>
-          <p><strong>ID:</strong> {itemFound.id}</p>
-          <p><strong>Name:</strong> {itemFound.name}</p>
-          <p><strong>Quantity:</strong> {itemFound.quantity}</p>
-          <p><strong>Price:</strong> ${itemFound.price}</p>
-          <p><strong>Category:</strong> {itemFound.category}</p>
+          <h3 className="subtitle">Item Details:</h3>
+          <table className="display-items-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Category</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr key={itemFound.id}>
+                <td>{itemFound.id}</td>
+                <td>{itemFound.name}</td>
+                <td>{itemFound.quantity}</td>
+                <td>${itemFound.price.toFixed(2)}</td>
+                <td>{itemFound.category}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       ) : (
-        errorMessage && <p>{errorMessage}</p> // Display 'Item not found!' if not found
+        errorMessage && <p className="error-message">{errorMessage}</p>
       )}
     </div>
   );
